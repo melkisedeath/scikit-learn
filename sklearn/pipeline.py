@@ -554,6 +554,23 @@ class Pipeline(_BaseComposition):
             self._final_estimator.transform
         return self._transform
 
+    @if_delegate_has_method(delegate='_final_estimator')
+    def get_metric(self):
+        """Returns get_metric, if final estimator has this attribute
+
+        This also works where final estimator is ``None``: all prior
+        transformations are applied.
+
+        
+        Returns
+        -------
+        metric : function 
+        """
+        return self.steps[-1][-1].get_metric()
+
+
+
+
     def _transform(self, X):
         Xt = X
         for _, _, transform in self._iter():
