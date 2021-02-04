@@ -608,6 +608,15 @@ class BaseSearchCV(MetaEstimatorMixin, BaseEstimator, metaclass=ABCMeta):
         return self.best_estimator_.transform(X)
 
     @if_delegate_has_method(delegate=('best_estimator_', 'estimator'))
+    def get_metric(self):
+        """Call get_metric on the estimator with the best found parameters.
+
+        Only available if the underlying estimator supports ``get_metric``.
+        """
+        self._check_is_fitted('get_metric')
+        return self.best_estimator_.get_metric()
+
+    @if_delegate_has_method(delegate=('best_estimator_', 'estimator'))
     def inverse_transform(self, Xt):
         """Call inverse_transform on the estimator with the best found params.
 
